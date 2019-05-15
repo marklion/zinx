@@ -1,7 +1,7 @@
 # zinx
 simple,pure IO
 
-# Usage:
+# Sample:
 
 ## 1.Read stdin echo to stdout
 
