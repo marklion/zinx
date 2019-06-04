@@ -141,3 +141,22 @@ You should split your whole business into several layer including channel protoc
 + In role layer, it's the best place to write your pure business code. Function ProcMsg is used to override to process specific user-data(not about IO and protocol). In addition, you can define several objects based on different Irole classes and then link them as a chain through SetNextProcessor.  In this case, a original user-data will be handled by a role-chain one by one.
 
 > For more details of every single function. Please read the code comment directly.
+
+# Utility class
+
+To provide common useful function avoid developer repeat working, this framework has three utility classes implement TCP data channel.
+
+## 1 ZinxTcpData
+
+This class has only one virtual fucntion GetInputNextStage that is the same meaning of its super-class. You should inherit this class and override this function to define which handler should handle received bytes stream.
+
+The objects based on this class maintain their own socket. So the object should be constructed after one client connected.
+
+## 2 IZinxTcpConnFact
+
+As its name, this class is an abstract class which is used to construct ZinxTcpData object. You just need to override the only one virtual function CreateTcpDataChannel to return suitable ZinxTcpData object.
+
+## 3 ZinxTCPListen
+
+This Class is not a abstract class, you can use it to construct object directly. When construction, TCP listen port number and one object of IZinxTcpConnFact sub-class should be specified.
+
