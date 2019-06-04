@@ -21,6 +21,8 @@ We appreciate every developer fork this repository and implement more and more s
 
     `sudo make install`
 
+**Note:** you should add compile flag -std=c++11 and link flag -lzinx when build your own application using this library.
+
 # Quick Start
 
 1. Call ZinxKernel::ZinxKernelInit() first to initialize IO-schedule kernel of this framework.
