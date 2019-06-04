@@ -21,13 +21,17 @@ We appreciate every developer fork this repository and implement more and more s
 
     `sudo make install`
 
-# Develope Reference
+# Quick Start
 
-
+1. Call ZinxKernel::ZinxKernelInit() first to initialize IO-schedule kernel of this framework.
+2. Create a class inherit AZinxHandler and override InternelHandle. In this function you can add your own code in which is used to handle bytes stream read from some input channel. For example, you can just print bytes on STDOUT. When you override this function, you may use the macro GET_REF2DATA to convert IZinxMsg reference to BytesMsg reference.
+3. Create a or more classes inherit Ichannel and override the required functions which defined the actions of one specific data channel(file description in general). When you override GetInputNextStage, you were actually pointing who is the next handler. So return a object create based on class you defined in step 2 is the most adviced.
+4. Create object based on the Ichannel class you create in step 2, and add it to kernel using ZinxKernel::Zinx_Add_Channel().
+5. Call ZinxKernel::Zinx_Run() and your process will enter a loop in which data will be processed obeying method you pre-defined in function InernelHandle when data came from file opened as fd of Ichannel object.
 
 # Sample:
 
-## 1.Read stdin echo to stdout
+## Read stdin echo to stdout
 
 ```cpp
 #include <zinx.h>
@@ -125,3 +129,11 @@ int main()
 | console output+<--------------+TestSTDOut：：WriteFd |
 +---------------+               +--------------------+
 ```
+
+# Advanced Usage
+
+You should split your whole business into several layer including channel protocol role and so on.
+
++ In channel layer, you'd better only write your basic IO-process via inherit Ichannel class. For example, maybe you need call a native system-call like read or write when you override the ReadFd and WriteFd function. Parameters of functions above should used to store data ready to send or just arrived.
++ In protocol layer, we suggest you put your data convertion here. You can create one or more object of sub-class based on Iprotocol class to put your several layer data translation protocol in. Most of all, you may need write data verifiction and message deliver by override raw2request and GetMsgProcessor, and you may need write data serializition by override response2raw and GetMsgSender.
++ In role layer, it's the best place to write your pure business code. Function ProcMsg is used to override to process specific user-data(not about IO and protocol). In addition, you can define several objects based on different Irole classes and then link them as a chain through SetNextProcessor. 
