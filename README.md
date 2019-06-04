@@ -1,6 +1,30 @@
 # zinx
 simple,pure IO
 
+# Description
+
+This is a simple framework handling multi-IO. Include but not limited socket IO was supported. Developer can implement their own action in every stage of a whole IO process via override the methods of abstract classes which were pre-defined in this framework. At the same time, framework also provide several specific classes used to cover almost common function such as TCP socket, STDIN,STDOUT and so on.
+We appreciate every developer fork this repository and implement more and more specific classes to solve problem in each difficult situation and layer of data translation.
+
+# Install
+1. clone the whole project through ssh or http
+
+    `git clone https://github.com/marklion/zinx.git`
+
+2. enter project folder and run make
+
+    `cd zinx`
+
+    `make`
+
+3. install library and header file.
+
+    `sudo make install`
+
+# Develope Reference
+
+
+
 # Sample:
 
 ## 1.Read stdin echo to stdout
@@ -10,7 +34,7 @@ simple,pure IO
 #include <iostream>
 using namespace std;
 
-/*define class used to srite stdout*/
+/*define class used to write stdout*/
 class TestStdout:public Ichannel{
 public:
     /*do nothing*/
@@ -35,7 +59,7 @@ public:
 class Echo:public AZinxHandler
 {
 public:
-    /*define echo action is get string from input, and send out is via stdout channel object*/
+    /*define echo action which is get string from input, and send out it via stdout channel object*/
     virtual IZinxMsg *InternelHandle(IZinxMsg &_oInput){
         GET_REF2DATA(BytesMsg, oBytes, _oInput);
         ZinxKernel::Zinx_SendOut(oBytes.szData, *poOut);
