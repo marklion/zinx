@@ -136,4 +136,6 @@ You should split your whole business into several layer including channel protoc
 
 + In channel layer, you'd better only write your basic IO-process via inherit Ichannel class. For example, maybe you need call a native system-call like read or write when you override the ReadFd and WriteFd function. Parameters of functions above should used to store data ready to send or just arrived.
 + In protocol layer, we suggest you put your data convertion here. You can create one or more object of sub-class based on Iprotocol class to put your several layer data translation protocol in. Most of all, you may need write data verifiction and message deliver by override raw2request and GetMsgProcessor, and you may need write data serializition by override response2raw and GetMsgSender.
-+ In role layer, it's the best place to write your pure business code. Function ProcMsg is used to override to process specific user-data(not about IO and protocol). In addition, you can define several objects based on different Irole classes and then link them as a chain through SetNextProcessor. 
++ In role layer, it's the best place to write your pure business code. Function ProcMsg is used to override to process specific user-data(not about IO and protocol). In addition, you can define several objects based on different Irole classes and then link them as a chain through SetNextProcessor.  In this case, a original user-data will be handled by a role-chain one by one.
+
+> For more details of every single function. Please read the code comment directly.
