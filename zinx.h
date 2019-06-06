@@ -179,10 +179,9 @@ public:
 	/*设置通道关闭函数，若再数据处理或业务处理时，判断当前通道应该被关闭时，可以调用该函数*/
 	void SetChannelClose() { m_NeedClose = true; }
 	bool ChannelNeedClose() { return m_NeedClose; }
-protected:
     /*获取通道信息函数，开发者可以在该函数中返回跟通道相关的一些特征字符串，方便后续查找和过滤*/
 	virtual std::string GetChannelInfo() = 0;
-
+protected:
 	/*获取下一个处理环节，开发者应该重写该函数，指定下一个处理环节
 	一般地，开发者应该在该函数返回一个协议对象，用来处理读取到的字节流*/
 	virtual AZinxHandler *GetInputNextStage(BytesMsg &_oInput) = 0;
@@ -210,6 +209,9 @@ public:
 
 	/*摘除通道对象，该函数不会释放通道对象，需要调用者手动释放*/
 	static void Zinx_Del_Channel(Ichannel &_oChannel);
+
+    /*通过通道的信息获取通道对象，如果多个通道的信息字符串相同则获取第一个通道*/
+	static Ichannel *Zinx_GetChannel_ByInfo(std::string _szInfo);
 
     /*添加协议对象，要求对象为堆对象，该函数仅有内存管理的作用，建议开发者将协议对象添加到zinxkernel存储*/
 	static bool Zinx_Add_Proto(Iprotocol &_oProto);

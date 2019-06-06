@@ -152,6 +152,21 @@ void ZinxKernel::Zinx_Del_Channel(Ichannel & _oChannel)
 	poZinxKernel->Del_Channel(_oChannel);
 }
 
+Ichannel *ZinxKernel::Zinx_GetChannel_ByInfo(std::string _szInfo)
+{
+    Ichannel *pret = NULL;
+
+    for (auto itr:poZinxKernel->m_ChannelList)
+    {
+        if (_szInfo == (*itr).GetChannelInfo())
+        {
+            pret = &(*itr);
+        }
+    }
+
+    return pret;
+}
+
 void ZinxKernel::Zinx_SetChannelOut(Ichannel & _oChannel)
 {
 	struct epoll_event stEvent;
