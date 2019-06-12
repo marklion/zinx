@@ -1,6 +1,8 @@
 # zinx
 simple,pure IO
 
+[similar framework in golang](https://github.com/aceld/zinx)
+
 # Description
 
 This is a simple framework handling multi-IO. Include but not limited socket IO was supported. Developer can implement their own action in every stage of a whole IO process via override the methods of abstract classes which were pre-defined in this framework. At the same time, framework also provide several specific classes used to cover almost common function such as TCP socket, STDIN,STDOUT and so on.
