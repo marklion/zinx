@@ -161,5 +161,8 @@ int ZinxTcpData::GetFd()
 
 std::string ZinxTcpData::GetChannelInfo()
 {
-	return "TcpConnOn" + m_DataFd;
+    char fd[8] = { 0 };
+    sprintf(fd, "%d", GetFd());
+
+	return std::string("TcpConnOn") + fd;
 }
